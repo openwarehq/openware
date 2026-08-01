@@ -3,6 +3,7 @@ import { Board } from "@/components/Board";
 import { CopyBlock } from "@/components/CopyBlock";
 import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
+import { OpenSlotArt, WorkshopArt } from "@/components/PlaceholderArt";
 import { DROPS, ledger } from "@/data/drops";
 import { BOARD_TARGETS, ON_THE_BLOCK } from "@/data/targets";
 import { asset } from "@/lib/asset";
@@ -43,7 +44,7 @@ const BAR = [
 ];
 
 export default function Home() {
-  const { count, annualUsd } = ledger();
+  const { count } = ledger();
 
   return (
     <>
@@ -88,39 +89,6 @@ export default function Home() {
                   : "None replaced yet."}
               </p>
             </div>
-          </div>
-        </section>
-
-        {/* ── Ledger strip ───────────────────────────────────── */}
-        <section className="section--tight">
-          <div className="shell">
-            <dl className="stats" data-reveal>
-              <div className="stat">
-                <dt className="eyebrow">Published</dt>
-                <dd className="stat__value">
-                  {count}{" "}
-                  <span className="stat__unit">
-                    {count === 1 ? "drop" : "drops"}
-                  </span>
-                </dd>
-              </div>
-              <div className="stat">
-                <dt className="eyebrow">
-                  {count > 0 ? "Not spent, per year" : "On the list"}
-                </dt>
-                <dd className="stat__value">
-                  {count > 0 ? `$${annualUsd}` : BOARD_COUNT}
-                </dd>
-              </div>
-              <div className="stat">
-                <dt className="eyebrow">Accounts required</dt>
-                <dd className="stat__value">0</dd>
-              </div>
-              <div className="stat">
-                <dt className="eyebrow">Licence</dt>
-                <dd className="stat__value">MIT</dd>
-              </div>
-            </dl>
           </div>
         </section>
 
@@ -180,7 +148,7 @@ export default function Home() {
             {/* An empty slot that says what it is, rather than a fake card. */}
             <article className="shot shot--ghost" role="listitem" data-reveal style={{ "--i": 1 } as React.CSSProperties}>
               <div className="shot__frame shot__frame--empty">
-                <span className="shot__soon mono">Next drop</span>
+                <WorkshopArt />
               </div>
               <div className="shot__body">
                 <h3 className="h3 shot__name">In the workshop</h3>
@@ -198,7 +166,7 @@ export default function Home() {
 
             <article className="shot shot--ghost" role="listitem" data-reveal style={{ "--i": 2 } as React.CSSProperties}>
               <div className="shot__frame shot__frame--empty">
-                <span className="shot__soon mono">Open slot</span>
+                <OpenSlotArt />
               </div>
               <div className="shot__body">
                 <h3 className="h3 shot__name">Name the next one</h3>
