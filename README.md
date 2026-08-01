@@ -6,7 +6,7 @@
 
 **Every drop replaces a subscription you are already paying for. Clone it, point it at a model you own, and keep it.**
 
-![drops](https://img.shields.io/badge/drops-0-black?style=flat-square)
+![drops](https://img.shields.io/badge/drops-2-black?style=flat-square)
 ![accounts](https://img.shields.io/badge/accounts-0-black?style=flat-square)
 ![models](https://img.shields.io/badge/models-bring%20your%20own-black?style=flat-square)
 ![license](https://img.shields.io/badge/license-MIT-black?style=flat-square)
@@ -19,8 +19,7 @@ This repository is the **Openware website**, and the place to
 [nominate a target](../../issues/new?template=target.md).
 
 Each drop lives in its own repository under
-[github.com/openwarehq](https://github.com/openwarehq). Nothing is published
-yet — the first replacement is being built and used before it ships.
+[github.com/openwarehq](https://github.com/openwarehq).
 
 ## The thesis
 
@@ -92,9 +91,12 @@ npm run typecheck
 
 - **Three dependencies:** `next`, `react`, `react-dom`. No CSS framework, no
   icon package, no animation library. One stylesheet, `src/app/globals.css`.
-- **It fetches nothing at load.** Both typefaces are self-hosted via
-  `next/font/local`; the hero board, the brand mark and every icon are inline
-  SVG. No CDN, no Google Fonts, no analytics.
+- **It fetches nothing third-party at load.** Both typefaces are self-hosted
+  via `next/font/local`, and the hero footage and every screenshot are served
+  from this repo. No CDN, no Google Fonts, no analytics, no external host.
+- **The hero footage is generated, and says so.** `public/media/ridge.mp4` is
+  a 204 KB clip with its audio track stripped. Everything else — the brand
+  mark, the icons, the placeholder card art — is inline SVG drawn in code.
 - **No vendor logos.** Subscription names appear as text, to say what a drop
   replaces. The marks on the hero board are generic geometry — see the note in
   [`src/components/Glyph.tsx`](./src/components/Glyph.tsx).
@@ -102,17 +104,30 @@ npm run typecheck
   that would hold one links to the source.
 - **Motion fails open.** The scroll-reveal hidden state is gated on an
   attribute only the runtime sets, so with JS unavailable nothing is ever
-  hidden. It is disabled entirely under `prefers-reduced-motion`.
+  hidden. The hero video carries no `autoplay` attribute for the same reason:
+  playback is started from script only when motion is welcome, so reduced
+  motion and no-JS both land on the poster frame — which is frame 0 of the
+  clip, so the still and the first painted frame are the same picture.
 
 ## Verified
 
 Measured over the Chrome DevTools protocol against the built export, not
 asserted:
 
-- No horizontal overflow at 390, 768, 1280 and 1680 px, across every route.
+- No horizontal overflow at 390, 768, 1280 and 1680 px, across every route —
+  20 of 20 combinations.
 - Every text node clears WCAG AA contrast, with alpha-composited backgrounds.
-- With motion reduced, every animated element sits at its final state.
+- **Hero text is measured against the footage itself**, not against the DOM.
+  The backdrop is a sibling of the copy, so an ancestor walk reports flat ink
+  and proves nothing; instead the hero renders with the copy hidden, and each
+  string is scored against the brightest real pixel inside its own box. Worst
+  case is currently 6.78:1 against a 4.5 requirement.
+- With motion reduced, every animated element sits at its final state and the
+  backdrop stays paused on frame 0.
 - With JavaScript disabled, no content is hidden.
+
+Hover states are checked by hand — the auditor only ever sees the resting
+state. That is how the primary button's hover was caught sitting at 3.53:1.
 
 ## Deploying
 

@@ -1,19 +1,33 @@
 import Link from "next/link";
-import { Board } from "@/components/Board";
 import { CopyBlock } from "@/components/CopyBlock";
+import { DropCard, DropCardGhost } from "@/components/DropCard";
 import { Footer } from "@/components/Footer";
+import { HeroBackdrop } from "@/components/HeroBackdrop";
 import { Nav } from "@/components/Nav";
 import { OpenSlotArt, WorkshopArt } from "@/components/PlaceholderArt";
-import { DROPS, ledger } from "@/data/drops";
-import { BOARD_TARGETS, ON_THE_BLOCK } from "@/data/targets";
-import { asset } from "@/lib/asset";
+import { DROPS } from "@/data/drops";
+import { ON_THE_BLOCK } from "@/data/targets";
 import { NOMINATE, REPO } from "@/lib/links";
-
-const BOARD_COUNT = BOARD_TARGETS.length;
 
 const ENV = `LLM_BASE_URL=https://openrouter.ai/api/v1
 LLM_MODEL=google/gemma-4-26b-a4b-it:free
 LLM_API_KEY=                    # free key, no card`;
+
+/** Sits along the bottom edge of the hero, over the backdrop. */
+const PILLARS = [
+  {
+    title: "Bring your own model",
+    body: "Local on your own GPU, or your own API key. Never ours.",
+  },
+  {
+    title: "One command",
+    body: "docker compose up. If installing it needs a wiki, it isn’t self-hostable.",
+  },
+  {
+    title: "No account, ever",
+    body: "Nothing to sign up for, nothing to buy, nothing to cancel.",
+  },
+];
 
 const BAR = [
   {
@@ -44,55 +58,72 @@ const BAR = [
 ];
 
 export default function Home() {
-  const { count } = ledger();
-
   return (
     <>
       <Nav />
       <main id="main">
         {/* ── Hero ───────────────────────────────────────────── */}
         <section className="hero">
-          <div className="hero__glow" aria-hidden="true" />
-          <div className="shell hero__grid">
+          <HeroBackdrop />
+
+          <div className="shell hero__inner">
             <div className="hero__copy">
-              <p className="eyebrow" data-reveal>Open source · Self-hosted · MIT</p>
-              <h1 className="display hero__title" data-reveal style={{ "--i": 1 } as React.CSSProperties}>
+              <p className="eyebrow eyebrow--bright" data-reveal>
+                Open source · Self-hosted · MIT
+              </p>
+              <h1
+                className="display hero__title"
+                data-reveal
+                style={{ "--i": 1 } as React.CSSProperties}
+              >
                 Software you
                 <br />
                 own outright.
               </h1>
-
-              <p className="lede hero__lede" data-reveal style={{ "--i": 2 } as React.CSSProperties}>
-                Every release replaces a subscription you are already paying
-                for. Clone it, point it at a model you own, and keep it — no
-                account, no tier, nothing to buy.
+              <p
+                className="hero__lede"
+                data-reveal
+                style={{ "--i": 2 } as React.CSSProperties}
+              >
+                Every drop replaces a subscription you are already paying for.
+                Clone it, point it at a model you own, and keep it.
               </p>
-              <div className="hero__actions" data-reveal style={{ "--i": 3 } as React.CSSProperties}>
+              <div
+                className="hero__actions"
+                data-reveal
+                style={{ "--i": 3 } as React.CSSProperties}
+              >
                 <Link href="/drops" className="btn btn--primary">
                   Browse the drops
                   <span className="btn__arrow" aria-hidden="true">
                     →
                   </span>
                 </Link>
-                <Link href="/how-it-works" className="btn btn--ghost">
+                <Link href="/how-it-works" className="btn btn--glass">
                   How it works
                 </Link>
               </div>
             </div>
+          </div>
 
-            <div className="hero__board" data-reveal style={{ "--i": 2 } as React.CSSProperties}>
-              <Board />
-              <p className="hero__board-caption mono">
-                {BOARD_COUNT} on the list.{" "}
-                {count > 0
-                  ? `${count} replaced so far.`
-                  : "None replaced yet."}
-              </p>
+          <div className="hero__pillars">
+            <div className="shell pillars">
+              {PILLARS.map((p, i) => (
+                <div
+                  key={p.title}
+                  className="pillar"
+                  data-reveal
+                  style={{ "--i": 4 + i } as React.CSSProperties}
+                >
+                  <h2 className="pillar__title">{p.title}</h2>
+                  <p className="pillar__body">{p.body}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* ── The rail ───────────────────────────────────────── */}
+        {/* ── The drops ──────────────────────────────────────── */}
         <section className="section rail-section">
           <div className="shell">
             <div className="section-head" data-reveal>
@@ -111,77 +142,31 @@ export default function Home() {
 
           <div className="rail" role="list">
             <div className="rail__pad" aria-hidden="true" />
-            {DROPS.map((drop) => (
-              <Link
-                key={drop.slug}
-                href={`/drops/${drop.slug}`}
-                className="shot"
-                role="listitem"
-                data-reveal
-              >
-                <div className="shot__frame">
-                  <img
-                    src={asset(drop.hero.src)}
-                    alt={drop.hero.alt}
-                    width={1200}
-                    height={750}
-                    loading="lazy"
-                  />
-                  <span className="shot__index mono">{drop.id}</span>
-                </div>
-                <div className="shot__body">
-                  <h3 className="h3 shot__name">{drop.name}</h3>
-                  <p className="shot__tagline">{drop.tagline}</p>
-                  <p className="shot__foot mono">
-                    <span>
-                      Replaces {drop.replaces.name}{" "}
-                      <span className="struck">{drop.replaces.price}</span>
-                    </span>
-                    <span className="shot__arrow" aria-hidden="true">
-                      →
-                    </span>
-                  </p>
-                </div>
-              </Link>
+            {DROPS.map((drop, i) => (
+              <div key={drop.slug} role="listitem" className="rail__item">
+                <DropCard drop={drop} index={i} />
+              </div>
             ))}
-
-            {/* An empty slot that says what it is, rather than a fake card. */}
-            <article className="shot shot--ghost" role="listitem" data-reveal style={{ "--i": 1 } as React.CSSProperties}>
-              <div className="shot__frame shot__frame--empty">
-                <WorkshopArt />
-              </div>
-              <div className="shot__body">
-                <h3 className="h3 shot__name">In the workshop</h3>
-                <p className="shot__tagline">
-                  The next replacement is being built and used before it ships.
-                  Nothing lands here until it clears all five rules.
-                </p>
-                <p className="shot__foot mono">
-                  <a href={REPO} target="_blank" rel="noreferrer">
-                    Watch the repo →
-                  </a>
-                </p>
-              </div>
-            </article>
-
-            <article className="shot shot--ghost" role="listitem" data-reveal style={{ "--i": 2 } as React.CSSProperties}>
-              <div className="shot__frame shot__frame--empty">
-                <OpenSlotArt />
-              </div>
-              <div className="shot__body">
-                <h3 className="h3 shot__name">Name the next one</h3>
-                <p className="shot__tagline">
-                  The best nominations are specific: what it costs, what it
-                  actually does underneath, and the moment the paywall ruined
-                  your day.
-                </p>
-                <p className="shot__foot mono">
-                  <a href={NOMINATE} target="_blank" rel="noreferrer">
-                    Nominate a target →
-                  </a>
-                </p>
-              </div>
-            </article>
+            <div role="listitem" className="rail__item">
+              <DropCardGhost
+                index={DROPS.length}
+                title="In the workshop"
+                body="The next replacement is being built and used before it ships. Nothing lands here until it clears all five rules."
+                cta="Watch the org"
+                href={REPO}
+                art={<WorkshopArt />}
+              />
+            </div>
+            <div role="listitem" className="rail__item">
+              <DropCardGhost
+                index={DROPS.length + 1}
+                title="Name the next one"
+                body="The best nominations are specific: what it costs, what it actually does underneath, and the moment the paywall ruined your day."
+                cta="Nominate a target"
+                href={NOMINATE}
+                art={<OpenSlotArt />}
+              />
+            </div>
             <div className="rail__pad" aria-hidden="true" />
           </div>
         </section>
@@ -205,7 +190,12 @@ export default function Home() {
 
             <ol className="bar">
               {BAR.map((rule, i) => (
-                <li key={rule.n} className="rule" data-reveal style={{ "--i": i } as React.CSSProperties}>
+                <li
+                  key={rule.n}
+                  className="rule"
+                  data-reveal
+                  style={{ "--i": i } as React.CSSProperties}
+                >
                   <span className="rule__n mono">{rule.n}</span>
                   <h3 className="rule__title">{rule.title}</h3>
                   <p className="rule__body">{rule.body}</p>
@@ -240,8 +230,7 @@ export default function Home() {
                 <li>
                   <strong>Free tiers are smaller than they look.</strong>{" "}
                   Measured: OpenRouter gives 50 requests a day on{" "}
-                  <code>:free</code> models. A 10-slide deck spends eleven of
-                  them.
+                  <code>:free</code> models. A 10-slide deck spends eleven.
                 </li>
               </ul>
               <Link
@@ -256,7 +245,11 @@ export default function Home() {
               </Link>
             </div>
 
-            <div className="byo__code" data-reveal style={{ "--i": 1 } as React.CSSProperties}>
+            <div
+              className="byo__code"
+              data-reveal
+              style={{ "--i": 1 } as React.CSSProperties}
+            >
               <CopyBlock code={ENV} label=".env" />
               <p className="byo__note mono">
                 Anything speaking the OpenAI chat-completions shape works —
@@ -270,7 +263,9 @@ export default function Home() {
         {/* ── On the block ───────────────────────────────────── */}
         <section className="section section--tight block">
           <div className="shell">
-            <p className="eyebrow" data-reveal>On the block</p>
+            <p className="eyebrow" data-reveal>
+              On the block
+            </p>
             <h2 className="h3 block__title">
               Subscriptions with a replacement coming.
             </h2>

@@ -1,9 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useMemo, useState } from "react";
+import { DropCard } from "@/components/DropCard";
 import { DROPS, searchDrops } from "@/data/drops";
-import { asset } from "@/lib/asset";
 import { NOMINATE } from "@/lib/links";
 
 export function DropsBrowser() {
@@ -49,36 +48,7 @@ export function DropsBrowser() {
       {results.length > 0 ? (
         <div className="grid">
           {results.map((drop, i) => (
-            <Link
-              key={drop.slug}
-              href={`/drops/${drop.slug}`}
-              className="tile"
-              data-reveal
-              style={{ "--i": Math.min(i, 6) } as React.CSSProperties}
-            >
-              <div className="tile__frame">
-                <img
-                  src={asset(drop.hero.src)}
-                  alt={drop.hero.alt}
-                  width={1200}
-                  height={750}
-                  loading="lazy"
-                />
-              </div>
-              <div className="tile__body">
-                <div className="tile__row">
-                  <h2 className="tile__name">{drop.name}</h2>
-                  <span className="tile__go" aria-hidden="true">
-                    →
-                  </span>
-                </div>
-                <p className="tile__tagline">{drop.tagline}</p>
-                <p className="tile__foot mono">
-                  Replaces {drop.replaces.name}{" "}
-                  <span className="struck">{drop.replaces.price}</span>
-                </p>
-              </div>
-            </Link>
+            <DropCard key={drop.slug} drop={drop} index={i} />
           ))}
         </div>
       ) : (
