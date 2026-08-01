@@ -51,6 +51,79 @@ export interface Drop {
 
 export const DROPS: Drop[] = [
   {
+    id: "001",
+    slug: "unlovable",
+    name: "unlovable",
+    tagline: "Describe a website, watch it get built page by page, export it",
+    summary:
+      "Describe a site in a sentence and watch it get written one page at a time, then refine it by chatting. The model writes structure, never CSS — design comes from tokens rendered by code, which is why separately generated pages still look like one site. Export is a zip of dependency-free HTML and CSS with zero remote references.",
+    replaces: {
+      name: "Lovable",
+      url: "https://lovable.dev",
+      price: "$25/mo",
+      annualUsd: 300,
+    },
+    status: "shipped",
+    statusNote: "verified offline on a local 7B, and through Docker",
+    tags: [
+      "website",
+      "builder",
+      "landing page",
+      "static site",
+      "lovable",
+      "html",
+      "css",
+      "export",
+      "netlify",
+    ],
+    hero: {
+      src: "/shots/unlovable-workspace.jpg",
+      alt: "The unlovable workspace: chat and version history on the left, a live preview of a generated coffee-roaster site on the right",
+      caption:
+        "A real site built by gemma-4-26b-a4b:free — chat and history on the left, live preview on the right, export and deploy top right.",
+    },
+    gallery: [
+      {
+        src: "/shots/unlovable-landing.jpg",
+        alt: "A generated landing page shown full width",
+        caption:
+          "One of the generated pages on its own. Type, colour and layout only — there is no image generation and no stock library, so nothing here was fetched from anywhere.",
+      },
+    ],
+    highlights: [
+      {
+        title: "The model writes structure, not CSS",
+        body: "Design comes from tokens rendered by code. That is why five separately generated pages look like one site rather than five — you get a coherent site, not an arbitrary one.",
+      },
+      {
+        title: "Truncated output is rejected, not shipped",
+        body: "Of the 17 models OpenRouter lists as free, 8 actually answer. Reasoning models are the usual failure: they spend the budget thinking and get cut off. The app refuses half a page rather than handing it to you.",
+      },
+      {
+        title: "A 7B model is the floor, and it clears it",
+        body: "Fully offline on qwen2.5-coder:7b: valid plan JSON, no stray style tags, no markdown fences leaking through, working nav links.",
+      },
+      {
+        title: "The export owes nothing to anyone",
+        body: "A zip of dependency-free HTML and CSS with zero remote references — checked by grepping the extracted archive, not assumed. Every static host takes it.",
+      },
+    ],
+    limits: [
+      "Static sites only. Marketing pages, portfolios, landing pages. No React apps, no backend, no database, no forms that submit anywhere.",
+      "No images. Pages are built from type, colour and layout — there is no image generation and no stock library.",
+      "Single user, no auth. It is your machine; do not expose it to the internet.",
+      "A page containing a literal ======= line can break editing. That is the delimiter of the SEARCH/REPLACE format the edit loop uses; aider has the same limitation.",
+      "Max 5 pages per site. More pages means more sequential model calls, and that gets slow fast.",
+      "Free models vary a lot. Some advertised as free return nothing at all — the picker lists what your provider offers, but it cannot tell you which are good.",
+    ],
+    measured: [
+      { label: "One page, hosted on the default free model", value: "62s" },
+      { label: "Full site plan, offline on a 7B", value: "22s" },
+      { label: "One chat edit, offline", value: "10–19s" },
+      { label: "Remote references in the export", value: "0" },
+    ],
+  },
+  {
     id: "006",
     slug: "ledge",
     name: "ledge",

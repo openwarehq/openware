@@ -6,7 +6,7 @@
 
 **Every drop replaces a subscription you are already paying for. Clone it, point it at a model you own, and keep it.**
 
-![drops](https://img.shields.io/badge/drops-4-black?style=flat-square)
+![drops](https://img.shields.io/badge/drops-5-black?style=flat-square)
 ![accounts](https://img.shields.io/badge/accounts-0-black?style=flat-square)
 ![models](https://img.shields.io/badge/models-bring%20your%20own-black?style=flat-square)
 ![license](https://img.shields.io/badge/license-MIT-black?style=flat-square)
