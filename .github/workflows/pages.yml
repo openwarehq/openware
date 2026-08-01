@@ -29,6 +29,11 @@ jobs:
       - name: Resolve the Pages base path
         id: pages
         uses: actions/configure-pages@v5
+        with:
+          # Turn Pages on if it isn't already, rather than failing the run.
+          # Without this the very first push to a fresh clone or fork dies
+          # here with "Get Pages site failed".
+          enablement: true
 
       - run: npm ci
 
