@@ -92,11 +92,13 @@ npm run typecheck
 - **Three dependencies:** `next`, `react`, `react-dom`. No CSS framework, no
   icon package, no animation library. One stylesheet, `src/app/globals.css`.
 - **It fetches nothing third-party at load.** Both typefaces are self-hosted
-  via `next/font/local`, and the hero footage and every screenshot are served
-  from this repo. No CDN, no Google Fonts, no analytics, no external host.
-- **The hero footage is generated, and says so.** `public/media/ridge.mp4` is
-  a 204 KB clip with its audio track stripped. Everything else — the brand
-  mark, the icons, the placeholder card art — is inline SVG drawn in code.
+  via `next/font/local`, and every plate and screenshot is served from this
+  repo. No CDN, no Google Fonts, no analytics, no external host.
+- **The background plates are generated, and say so.** `public/media/sky.jpg`
+  and `mist.jpg` are 66 KB together. The hero drifts via a CSS animation
+  rather than video — no playback policy to fight and nothing to pause.
+  Everything else — the brand mark, the icons, the placeholder card art — is
+  inline SVG drawn in code.
 - **No vendor logos.** Subscription names appear as text, to say what a drop
   replaces. The marks on the hero board are generic geometry — see the note in
   [`src/components/Glyph.tsx`](./src/components/Glyph.tsx).
@@ -104,10 +106,10 @@ npm run typecheck
   that would hold one links to the source.
 - **Motion fails open.** The scroll-reveal hidden state is gated on an
   attribute only the runtime sets, so with JS unavailable nothing is ever
-  hidden. The hero video carries no `autoplay` attribute for the same reason:
-  playback is started from script only when motion is welcome, so reduced
-  motion and no-JS both land on the poster frame — which is frame 0 of the
-  clip, so the still and the first painted frame are the same picture.
+  hidden. The background drift is declared *inside* a
+  `prefers-reduced-motion: no-preference` query rather than bolted on and
+  overridden, so under reduced motion the animation does not exist at all —
+  verified as `animation-name: none`, zero active animations.
 
 ## Verified
 
@@ -121,7 +123,7 @@ asserted:
   The backdrop is a sibling of the copy, so an ancestor walk reports flat ink
   and proves nothing; instead the hero renders with the copy hidden, and each
   string is scored against the brightest real pixel inside its own box. Worst
-  case is currently 6.78:1 against a 4.5 requirement.
+  case is currently 5.25:1 against a 4.5 requirement.
 - With motion reduced, every animated element sits at its final state and the
   backdrop stays paused on frame 0.
 - With JavaScript disabled, no content is hidden.

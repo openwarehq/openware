@@ -4,8 +4,9 @@ import { DropCard, DropCardGhost } from "@/components/DropCard";
 import { Footer } from "@/components/Footer";
 import { HeroBackdrop } from "@/components/HeroBackdrop";
 import { Nav } from "@/components/Nav";
-import { OpenSlotArt, WorkshopArt } from "@/components/PlaceholderArt";
+import { WorkshopArt } from "@/components/PlaceholderArt";
 import { DROPS } from "@/data/drops";
+import { asset } from "@/lib/asset";
 import { ON_THE_BLOCK } from "@/data/targets";
 import { NOMINATE, REPO } from "@/lib/links";
 
@@ -103,6 +104,47 @@ export default function Home() {
                   How it works
                 </Link>
               </div>
+
+              {/* Every claim here is checkable from the repo. */}
+              <p
+                className="hero__proof mono"
+                data-reveal
+                style={{ "--i": 4 } as React.CSSProperties}
+              >
+                <span>
+                  <b>{DROPS.length}</b> drops published
+                </span>
+                <span>
+                  <b>0</b> accounts, ever
+                </span>
+                <span>
+                  <b>MIT</b> licensed
+                </span>
+              </p>
+            </div>
+
+            {/* The product, above the fold. */}
+            <div
+              className="showcase"
+              data-reveal
+              style={{ "--i": 2 } as React.CSSProperties}
+            >
+              {DROPS.slice(0, 2).map((drop, i) => (
+                <figure
+                  key={drop.slug}
+                  className={`showcase__pane showcase__pane--${i === 0 ? "front" : "back"}`}
+                >
+                  <img
+                    src={asset(drop.hero.src)}
+                    alt={drop.hero.alt}
+                    width={1200}
+                    height={750}
+                  />
+                  <figcaption className="showcase__tag mono">
+                    {drop.name} · replaces {drop.replaces.name}
+                  </figcaption>
+                </figure>
+              ))}
             </div>
           </div>
 
@@ -124,7 +166,7 @@ export default function Home() {
         </section>
 
         {/* ── The drops ──────────────────────────────────────── */}
-        <section className="section rail-section">
+        <section className="section plate plate--mist">
           <div className="shell">
             <div className="section-head" data-reveal>
               <div>
@@ -157,22 +199,12 @@ export default function Home() {
                 art={<WorkshopArt />}
               />
             </div>
-            <div role="listitem" className="rail__item">
-              <DropCardGhost
-                index={DROPS.length + 1}
-                title="Name the next one"
-                body="The best nominations are specific: what it costs, what it actually does underneath, and the moment the paywall ruined your day."
-                cta="Nominate a target"
-                href={NOMINATE}
-                art={<OpenSlotArt />}
-              />
-            </div>
             <div className="rail__pad" aria-hidden="true" />
           </div>
         </section>
 
         {/* ── The bar ────────────────────────────────────────── */}
-        <section className="section bar-section" id="the-bar">
+        <section className="section plate plate--tint" id="the-bar">
           <div className="shell">
             <div className="section-head" data-reveal>
               <div>
@@ -206,7 +238,7 @@ export default function Home() {
         </section>
 
         {/* ── Bring your own everything ──────────────────────── */}
-        <section className="section byo">
+        <section className="section plate">
           <div className="shell byo__grid">
             <div data-reveal>
               <p className="eyebrow">Configuration</p>
@@ -261,7 +293,7 @@ export default function Home() {
         </section>
 
         {/* ── On the block ───────────────────────────────────── */}
-        <section className="section section--tight block">
+        <section className="section section--tight plate plate--deep block">
           <div className="shell">
             <p className="eyebrow" data-reveal>
               On the block

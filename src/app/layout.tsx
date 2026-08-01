@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Reveal } from "@/components/Reveal";
+import { asset } from "@/lib/asset";
 import "./globals.css";
 
 /**
@@ -47,7 +48,7 @@ export const metadata: Metadata = {
 export const viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#0b1220",
+  themeColor: "#ffffff",
 };
 
 export default function RootLayout({
@@ -56,7 +57,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable}`}>
+    <html
+      lang="en"
+      className={`${display.variable} ${body.variable}`}
+      /* The plates are referenced from CSS, which cannot know the deploy base
+         path — so they are handed in as custom properties here. */
+      style={
+        {
+          "--plate-sky": `url(${asset("/media/sky.jpg")})`,
+          "--plate-mist": `url(${asset("/media/mist.jpg")})`,
+        } as React.CSSProperties
+      }
+    >
       <body>
         <a className="skip-link" href="#main">
           Skip to content

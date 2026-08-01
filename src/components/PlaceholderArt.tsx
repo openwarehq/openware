@@ -5,8 +5,7 @@
  * rather than as an image that failed to load — which is exactly what a
  * diagonal-stripe swatch reads as. Both are drawn.
  *
- * Colours are ink-surface tones: these sit in a dark card, not on the cream
- * polaroid the first version was drawn for.
+ * Colours are ink on paper: these sit in a white glass card.
  */
 
 /** A plan, not a product: a wireframe part-drawn over blueprint grid. */
@@ -21,18 +20,18 @@ export function WorkshopArt() {
     >
       <defs>
         <pattern id="ow-grid" width="16" height="16" patternUnits="userSpaceOnUse">
-          <path d="M16 0H0v16" stroke="#4d84ff" strokeWidth="0.5" opacity="0.22" />
+          <path d="M16 0H0v16" stroke="#2563eb" strokeWidth="0.5" opacity="0.16" />
         </pattern>
       </defs>
       <rect width="320" height="200" fill="url(#ow-grid)" />
 
       {/* The window being drawn. Solid where it's decided, dashed where it isn't. */}
-      <g stroke="#a4b0c2" strokeLinecap="round" strokeLinejoin="round">
+      <g stroke="#46536b" strokeLinecap="round" strokeLinejoin="round">
         <rect x="58" y="42" width="204" height="116" rx="7" strokeWidth="1.8" />
         <path d="M58 66h204" strokeWidth="1.4" />
-        <circle cx="71" cy="54" r="2.6" fill="#a4b0c2" stroke="none" />
-        <circle cx="80" cy="54" r="2.6" fill="#a4b0c2" stroke="none" opacity="0.5" />
-        <circle cx="89" cy="54" r="2.6" fill="#a4b0c2" stroke="none" opacity="0.28" />
+        <circle cx="71" cy="54" r="2.6" fill="#46536b" stroke="none" />
+        <circle cx="80" cy="54" r="2.6" fill="#46536b" stroke="none" opacity="0.5" />
+        <circle cx="89" cy="54" r="2.6" fill="#46536b" stroke="none" opacity="0.28" />
 
         {/* Sidebar: settled. */}
         <path d="M104 66v92" strokeWidth="1.4" />
@@ -58,8 +57,8 @@ export function WorkshopArt() {
       </g>
 
       {/* Pinned, like everything on the board. */}
-      <circle cx="160" cy="30" r="6" fill="#2e6bf0" />
-      <circle cx="158" cy="28" r="2" fill="#9dbcff" opacity="0.9" />
+      <circle cx="160" cy="30" r="6" fill="#2563eb" />
+      <circle cx="158" cy="28" r="2" fill="#bcd0ff" opacity="0.95" />
     </svg>
   );
 }
@@ -74,7 +73,7 @@ export function OpenSlotArt() {
       aria-hidden="true"
       focusable="false"
     >
-      <g stroke="#a4b0c2" strokeLinecap="round" strokeLinejoin="round">
+      <g stroke="#46536b" strokeLinecap="round" strokeLinejoin="round">
         {/* Two cards behind, suggesting a stack with room at the front. */}
         <rect
           x="96"
@@ -109,8 +108,8 @@ export function OpenSlotArt() {
         <path d="M160 78v44M138 100h44" strokeWidth="3" opacity="0.65" />
       </g>
 
-      <circle cx="160" cy="30" r="6" fill="#2e6bf0" />
-      <circle cx="158" cy="28" r="2" fill="#9dbcff" opacity="0.9" />
+      <circle cx="160" cy="30" r="6" fill="#2563eb" />
+      <circle cx="158" cy="28" r="2" fill="#bcd0ff" opacity="0.95" />
     </svg>
   );
 }
