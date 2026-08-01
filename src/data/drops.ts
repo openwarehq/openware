@@ -126,6 +126,144 @@ export const DROPS: Drop[] = [
   },
   {
     id: "007",
+    slug: "fableclip",
+    name: "fableclip",
+    tagline: "A long video in, ranked vertical shorts out — with the score explained",
+    summary:
+      "Paste a long video and get vertical, captioned shorts back, ranked by how likely each is to travel and told in plain numbers why. The model never writes a timestamp: transcript lines are numbered, it returns line ids, and TypeScript does the arithmetic. Every contribution to the 0–100 score is shown on the card.",
+    replaces: {
+      name: "OpusClip",
+      url: "https://www.opus.pro",
+      price: "$29/mo",
+      annualUsd: 348,
+    },
+    status: "built",
+    statusNote: "484 tests, verified end to end in Docker",
+    tags: [
+      "video",
+      "clips",
+      "shorts",
+      "reels",
+      "tiktok",
+      "captions",
+      "subtitles",
+      "opusclip",
+      "youtube",
+      "repurposing",
+    ],
+    hero: {
+      src: "/shots/fableclip-app.jpg",
+      alt: "The fableclip interface: a URL field with clip count, length, framing and caption-style controls, above a completed fetch, transcribe, analyse and render pipeline",
+      caption:
+        "Paste a link, pick how many clips and how long, and the pipeline runs: fetch, transcribe, analyse, render. The model is named in the corner — it is yours, and it is the only thing here you supply.",
+    },
+    gallery: [],
+    highlights: [
+      {
+        title: "The model never writes a timestamp",
+        body: "Transcript lines are numbered and the model returns line ids; TypeScript turns those into times. A model that cannot invent a number cannot hand you a clip that starts mid-word.",
+      },
+      {
+        title: "The score is arithmetic you can read",
+        body: "Six 0–10 judgements weighted in code, plus modifiers measured from the transcript. Every contribution is shown on the card, so a ranking you disagree with tells you exactly which part to argue with.",
+      },
+      {
+        title: "Free word-level alignment, if you know where to look",
+        body: "YouTube's machine captions carry per-word tOffsetMs — creator-uploaded tracks do not, so the machine track is preferred over the human one. That is a word-accurate caption timing for nothing.",
+      },
+      {
+        title: "Auto-focus without face detection",
+        body: "96×54 greyscale samples, columns scored on motion and detail. It picked the speaker out of a side-by-side Zoom two-shot where a centre crop lands on the seam.",
+      },
+    ],
+    limits: [
+      "No face tracking, and it shows. Measured on the four clips above: three are framed on the speaker, one on the armchair beside him — a high-contrast object the heuristic likes as much as a face. One drag of the focus slider fixes it.",
+      "Filler is removed from the captions, not the audio. You still hear the “um”; you just do not read it.",
+      "No b-roll, no zooms, no music, no stock footage, no AI voice. It cuts what is there.",
+      "No speaker diarisation. The transcript knows what was said, not who said it.",
+      "No emoji or animated caption effects. Scaling the active word was tried and removed — ASS re-lays the line out every frame, so the caption twitches for the length of the clip.",
+      "It cannot tell you what will go viral. Nothing can. It ranks the moments in this video against each other, which is a genuinely useful and different thing.",
+      "The image is large — 1.6 GB measured. That is what ffmpeg, Python and faster-whisper weigh.",
+    ],
+    measured: [
+      { label: "Tests green", value: "484" },
+      { label: "Docker image", value: "1.6 GB" },
+      { label: "38-min interview", value: "4 clips out" },
+      { label: "Clip output", value: "1080×1920 H.264+AAC" },
+    ],
+  },
+  {
+    id: "008",
+    slug: "pier",
+    name: "pier",
+    tagline: "As many macOS docks as you want, each pinned to its own display",
+    summary:
+      "macOS gives you one Dock, and on two monitors it either lives on one screen or chases the pointer. Pier gives you as many as you like — each pinned to a display, each with its own contents, position and look. Native Swift, built from source, and it asks for no permissions and never touches the network.",
+    replaces: {
+      name: "ExtraDock",
+      url: "https://extradock.app",
+      price: "€9.99/yr",
+      annualUsd: 11,
+    },
+    status: "shipped",
+    statusNote: "native macOS, no permissions, no network",
+    tags: [
+      "dock",
+      "macos",
+      "multi-monitor",
+      "displays",
+      "extradock",
+      "launcher",
+      "menu bar",
+      "magnification",
+    ],
+    hero: {
+      src: "/shots/pier-dock.jpg",
+      alt: "A Pier dock with app icons, one magnified under the pointer, running indicators, a divider and the Trash",
+      caption:
+        "Icons magnify under the pointer, running apps get a dot, and dividers and widgets sit in the same row. Blur is composited by the window server, so it cannot be captured offscreen — the real thing is translucent.",
+    },
+    gallery: [
+      {
+        src: "/shots/pier-vertical.jpg",
+        alt: "A vertical Pier dock pinned to the edge of a second display",
+        caption:
+          "Each dock is pinned to a display by its hardware UUID, not its display ID — IDs get recycled, so a dock pinned to “display 3” would otherwise reappear on whatever became display 3 next.",
+      },
+    ],
+    highlights: [
+      {
+        title: "One struct owns the geometry",
+        body: "DockLayout produces tile frames, hit testing and drag-insertion points. The SwiftUI drawing and the AppKit hit-testing both ask it, so they cannot disagree about where a tile is.",
+      },
+      {
+        title: "Magnification is pure arithmetic",
+        body: "A raised-cosine falloff plus neighbour displacement that sums to zero, so the dock does not drift sideways as the swell moves under your pointer. It is the one thing everyone notices when it is wrong, and far easier to prove than to eyeball.",
+      },
+      {
+        title: "Zero permissions, again",
+        body: "Global mouse monitoring needs no Accessibility grant — only keyboard monitoring does. Auto-hide reveal is a 4pt band at the screen edge, watched by pointer position alone.",
+      },
+      {
+        title: "A dock whose monitor is gone, goes",
+        body: "Screens are identified by CGDisplayCreateUUIDFromDisplayID with a name-and-resolution fallback. Unplug a display and its dock hides rather than piling onto whatever screen is left.",
+      },
+    ],
+    limits: [
+      "No notification badges. The unread count on a Dock icon is not published by macOS to anyone but the Dock, and guessing would be worse than omitting it.",
+      "Mirroring the macOS Dock is a snapshot taken when you toggle it, not a live feed.",
+      "Not notarized, no signed DMG. You build it from source; it is ad-hoc signed on your own machine.",
+      "macOS 13+. No iOS, no Windows, no Linux.",
+    ],
+    measured: [
+      { label: "Tests green", value: "59" },
+      { label: "Build warnings", value: "0" },
+      { label: "Permissions requested", value: "0" },
+      { label: "Network calls", value: "0" },
+    ],
+  },
+  {
+    id: "009",
     slug: "kve",
     name: "kve",
     tagline: "Drop in raw footage, get a cut, captioned, scored short back",
