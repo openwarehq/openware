@@ -3,10 +3,10 @@ import { CopyBlock } from "@/components/CopyBlock";
 import { DropCard, DropCardGhost } from "@/components/DropCard";
 import { Footer } from "@/components/Footer";
 import { HeroBackdrop } from "@/components/HeroBackdrop";
+import { Receipt } from "@/components/Receipt";
 import { Nav } from "@/components/Nav";
 import { WorkshopArt } from "@/components/PlaceholderArt";
 import { DROPS } from "@/data/drops";
-import { asset } from "@/lib/asset";
 import { ON_THE_BLOCK } from "@/data/targets";
 import { NOMINATE, REPO } from "@/lib/links";
 
@@ -30,33 +30,6 @@ const PILLARS = [
   },
 ];
 
-const BAR = [
-  {
-    n: "01",
-    title: "Your model. Always.",
-    body: "Local on your own GPU, or your own API key. Never ours. If it can't run fully offline against a local model, it doesn't ship.",
-  },
-  {
-    n: "02",
-    title: "One command.",
-    body: "docker compose up. If installing it needs a wiki, it isn't self-hostable — it's homework.",
-  },
-  {
-    n: "03",
-    title: "The core job, end to end.",
-    body: "The thing the product is actually for, working, with real output. Mocked backends are not releases.",
-  },
-  {
-    n: "04",
-    title: "An honest “what this doesn't do.”",
-    body: "In every README, near the top. Scope you state up front is a feature. Scope discovered at 2am is a betrayal.",
-  },
-  {
-    n: "05",
-    title: "It gets used before it ships.",
-    body: "If we wouldn't reach for it over the thing it replaces, it isn't finished.",
-  },
-];
 
 export default function Home() {
   return (
@@ -103,28 +76,13 @@ export default function Home() {
 
             </div>
 
-            {/* The product, above the fold. */}
+            {/* Built from the real drop data — if one ships, this changes. */}
             <div
-              className="showcase"
+              className="hero__aside"
               data-reveal
-              style={{ "--i": 2 } as React.CSSProperties}
+              style={{ "--i": 1 } as React.CSSProperties}
             >
-              {DROPS.slice(0, 2).map((drop, i) => (
-                <figure
-                  key={drop.slug}
-                  className={`showcase__pane showcase__pane--${i === 0 ? "front" : "back"}`}
-                >
-                  <img
-                    src={asset(drop.hero.src)}
-                    alt={drop.hero.alt}
-                    width={1200}
-                    height={750}
-                  />
-                  <figcaption className="showcase__tag mono">
-                    {drop.name} · replaces {drop.replaces.name}
-                  </figcaption>
-                </figure>
-              ))}
+              <Receipt />
             </div>
           </div>
 
@@ -168,42 +126,8 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── The bar ────────────────────────────────────────── */}
-        <section className="section plate plate--tint" id="the-bar">
-          <div className="shell">
-            <div className="section-head" data-reveal>
-              <div>
-                <p className="eyebrow">The bar</p>
-                <h2 className="h2">
-                  Five rules. All five,
-                  <br />
-                  or it doesn&rsquo;t ship.
-                </h2>
-              </div>
-              <p className="lede bar-section__note">
-                Missing a day is survivable. One broken folder isn&rsquo;t.
-              </p>
-            </div>
-
-            <ol className="bar">
-              {BAR.map((rule, i) => (
-                <li
-                  key={rule.n}
-                  className="rule"
-                  data-reveal
-                  style={{ "--i": i } as React.CSSProperties}
-                >
-                  <span className="rule__n mono">{rule.n}</span>
-                  <h3 className="rule__title">{rule.title}</h3>
-                  <p className="rule__body">{rule.body}</p>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </section>
-
         {/* ── Bring your own everything ──────────────────────── */}
-        <section className="section plate">
+        <section className="section plate plate--sky">
           <div className="shell byo__grid">
             <div data-reveal>
               <p className="eyebrow">Configuration</p>
@@ -258,7 +182,7 @@ export default function Home() {
         </section>
 
         {/* ── On the block ───────────────────────────────────── */}
-        <section className="section section--tight plate plate--deep block">
+        <section className="section section--tight plate plate--sky block">
           <div className="shell">
             <p className="eyebrow" data-reveal>
               On the block

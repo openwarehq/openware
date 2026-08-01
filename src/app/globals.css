@@ -247,9 +247,22 @@ h4 {
   background-position: center;
 }
 
-.plate--mist::before {
-  background-image: var(--plate-mist);
-  opacity: 0.9;
+/* The same blue sky and dot screen as the hero, so the page is one surface
+   with a single dark chapter cut into it. */
+.plate--sky::before {
+  background-image: var(--plate-sky);
+  opacity: 0.85;
+}
+
+.plate--sky::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(rgba(37, 99, 235, 0.18) 1px, transparent 1.4px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.86));
+  background-size: 5px 5px, auto;
 }
 
 /* Pixel art, scaled up without being smoothed into mush. */
@@ -268,9 +281,10 @@ h4 {
   z-index: -1;
   background: linear-gradient(
     180deg,
-    rgba(7, 11, 19, 0.62) 0%,
-    rgba(7, 11, 19, 0.34) 34%,
-    rgba(7, 11, 19, 0.46) 100%
+    rgba(7, 11, 19, 0.86) 0%,
+    rgba(7, 11, 19, 0.78) 18%,
+    rgba(7, 11, 19, 0.46) 46%,
+    rgba(7, 11, 19, 0.58) 100%
   );
 }
 
@@ -296,14 +310,6 @@ h4 {
 .plate--scene .btn--ghost:hover {
   background: rgba(255, 255, 255, 0.2);
   border-color: rgba(255, 255, 255, 0.5);
-}
-
-.plate--tint {
-  background: linear-gradient(180deg, var(--paper), var(--paper-2) 40%, var(--paper));
-}
-
-.plate--deep {
-  background: linear-gradient(180deg, var(--paper-2), var(--paper-3));
 }
 
 /* Hairlines between chapters, so the transitions read as deliberate. */
@@ -535,8 +541,14 @@ html[data-reveal="on"] [data-reveal].is-in {
   position: relative;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   isolation: isolate;
-  padding-top: clamp(6.5rem, 13vh, 9rem);
+  /* Fills the screen: the fold is the whole first impression, and everything
+     else is a deliberate scroll. svh rather than vh so mobile browser chrome
+     does not push the bottom off. */
+  min-height: 100svh;
+  padding-top: clamp(6rem, 12vh, 8rem);
+  padding-bottom: clamp(3rem, 8vh, 6rem);
   overflow: hidden;
 }
 
@@ -583,10 +595,14 @@ html[data-reveal="on"] [data-reveal].is-in {
 .hero__inner {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.02fr);
+  grid-template-columns: minmax(0, 1.06fr) minmax(0, 0.94fr);
   align-items: center;
-  gap: clamp(2rem, 5vw, 4rem);
-  padding-bottom: clamp(3rem, 7vh, 5rem);
+  gap: clamp(2rem, 5vw, 4.5rem);
+}
+
+.hero__aside {
+  display: grid;
+  place-items: center;
 }
 
 /* The headline shares its row with the product now, so it is sized to its own
@@ -615,122 +631,9 @@ html[data-reveal="on"] [data-reveal].is-in {
 
 /* Small, true, and load-bearing: the reference sites all put a proof line
    under the CTAs. */
-.hero__proof {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem 1.1rem;
-  margin-top: 1.75rem;
-  color: var(--ink-3);
-}
 
-.hero__proof b {
-  color: var(--ink);
-  font-weight: 600;
-}
-
-/* ── Product showcase ──────────────────────────────────────── */
-
-.showcase {
-  position: relative;
-  display: grid;
-  place-items: center;
-  min-height: clamp(20rem, 42vh, 30rem);
-}
-
-.showcase__pane {
-  position: absolute;
-  width: 70%;
-  padding: 0.5rem;
-  border-radius: var(--radius-xl);
-  background: var(--paper);
-  border: 1px solid var(--glass-line);
-  box-shadow: var(--lift-3);
-}
-
-.showcase__pane img {
-  width: 100%;
-  display: block;
-  border-radius: calc(var(--radius-xl) - 0.5rem);
-}
-
-.showcase__pane--back {
-  transform: translate(22%, -30%) rotate(3.5deg) scale(0.86);
-  z-index: 1;
-}
-
-.showcase__pane--front {
-  transform: translate(-16%, 22%) rotate(-2.5deg);
-  z-index: 2;
-}
-
-.showcase__tag {
-  position: absolute;
-  left: 1rem;
-  bottom: 1rem;
-  padding: 0.3rem 0.7rem;
-  border-radius: var(--radius-pill);
-  background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid var(--glass-line);
-  color: var(--ink-2);
-  box-shadow: var(--lift-1);
-}
-
-@media (max-width: 960px) {
-  .hero__inner {
-    grid-template-columns: 1fr;
-  }
-  .showcase {
-    min-height: 22rem;
-    margin-top: 1rem;
-  }
-  .showcase__pane {
-    width: 68%;
-  }
-}
 
 /* ── Hero pillars ──────────────────────────────────────────── */
-
-.hero__pillars {
-  position: relative;
-  border-top: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-}
-
-.pillars {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: clamp(1.25rem, 4vw, 3.5rem);
-  padding-block: clamp(1.5rem, 3.5vh, 2.25rem);
-}
-
-.pillar__title {
-  font-family: var(--font-display), sans-serif;
-  font-size: 1.02rem;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-}
-
-.pillar__body {
-  margin-top: 0.4rem;
-  font-size: 0.925rem;
-  line-height: 1.5;
-  color: var(--ink-2);
-}
-
-@media (max-width: 760px) {
-  .hero {
-    padding-top: clamp(6.5rem, 20vh, 9rem);
-  }
-  .pillars {
-    grid-template-columns: 1fr;
-    gap: 1.15rem;
-  }
-}
 
 /* ── The rail ──────────────────────────────────────────────── */
 
@@ -750,7 +653,7 @@ html[data-reveal="on"] [data-reveal].is-in {
 }
 
 .rail__item {
-  flex: 0 0 min(23rem, 80vw);
+  flex: 0 0 min(19.5rem, 78vw);
   scroll-snap-align: center;
   display: flex;
 }
@@ -845,7 +748,7 @@ a.card-drop:hover .card-drop__frame img {
   display: flex;
   flex: 1;
   flex-direction: column;
-  padding: 1.25rem 1.35rem 1.35rem;
+  padding: 1rem 1.1rem 1.1rem;
 }
 
 .card-drop__row {
@@ -857,7 +760,7 @@ a.card-drop:hover .card-drop__frame img {
 
 .card-drop__name {
   font-family: var(--font-display), sans-serif;
-  font-size: 1.45rem;
+  font-size: 1.25rem;
   font-weight: 700;
   letter-spacing: -0.038em;
 }
@@ -889,9 +792,9 @@ a.card-drop:hover .card-drop__go {
 }
 
 .card-drop__tagline {
-  margin-top: 0.55rem;
+  margin-top: 0.45rem;
   flex: 1;
-  font-size: 0.96rem;
+  font-size: 0.9rem;
   line-height: 1.55;
   color: var(--ink-2);
 }
@@ -901,8 +804,8 @@ a.card-drop:hover .card-drop__go {
   align-items: baseline;
   justify-content: space-between;
   gap: 0.75rem;
-  margin-top: 1.35rem;
-  padding-top: 0.9rem;
+  margin-top: 1rem;
+  padding-top: 0.75rem;
   border-top: 1px solid var(--line);
   color: var(--ink-2);
 }
@@ -918,64 +821,9 @@ a.card-drop:hover .card-drop__go {
 
 /* ── The bar ───────────────────────────────────────────────── */
 
-.bar-section__note {
-  max-width: 22ch;
-  font-size: 1rem;
-  text-align: right;
-}
-
 /* Dividers come from each cell's own right/bottom border, not a 1px gap over
    a coloured background. With the gap trick, a row that doesn't fill (5 rules
    in a 4-column grid) shows the background through as a slab. */
-.bar {
-  list-style: none;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
-  border-top: 1px solid var(--line);
-  border-left: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  background: var(--paper);
-  box-shadow: var(--lift-1);
-}
-
-.rule {
-  padding: 1.85rem 1.6rem 2rem;
-  border-right: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  transition: background var(--med) var(--ease);
-}
-
-.rule:hover {
-  background: var(--paper-2);
-}
-
-.rule__n {
-  color: var(--accent);
-}
-
-.rule__title {
-  font-family: var(--font-display), sans-serif;
-  font-size: 1.15rem;
-  font-weight: 700;
-  letter-spacing: -0.028em;
-  margin-top: 0.9rem;
-  line-height: 1.2;
-}
-
-.rule__body {
-  margin-top: 0.7rem;
-  font-size: 0.95rem;
-  line-height: 1.6;
-  color: var(--ink-2);
-}
-
-@media (max-width: 700px) {
-  .bar-section__note {
-    text-align: left;
-  }
-}
 
 /* ── Code block ────────────────────────────────────────────────
    Stays dark on the light page: a terminal is a terminal.
@@ -1313,8 +1161,8 @@ a.card-drop:hover .card-drop__go {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(24rem, 100%), 1fr));
-  gap: clamp(1.5rem, 3vw, 2.25rem);
+  grid-template-columns: repeat(auto-fill, minmax(min(20rem, 100%), 1fr));
+  gap: clamp(1.25rem, 2.4vw, 1.75rem);
   margin-top: 2.25rem;
 }
 
@@ -1699,5 +1547,188 @@ a.card-drop:hover .card-drop__go {
        failure this query exists to prevent. */
     animation-delay: 0s !important;
     transition-delay: 0s !important;
+  }
+}
+
+/* ── Receipt ───────────────────────────────────────────────────
+   The hero's right-hand visual. Built from the drop data, drawn
+   rather than photographed, and it strikes its own lines through.
+   ─────────────────────────────────────────────────────────── */
+
+.receipt {
+  width: min(24rem, 100%);
+  perspective: 1200px;
+}
+
+.receipt__paper {
+  position: relative;
+  padding: 1.6rem 1.5rem 2.2rem;
+  background: var(--paper);
+  border-radius: 10px 10px 0 0;
+  box-shadow: var(--lift-3);
+  transform: rotate(-1.4deg);
+}
+
+.receipt__head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  text-align: center;
+}
+
+.receipt__title {
+  font-size: 0.8rem;
+  letter-spacing: 0.28em;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.receipt__sub {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: var(--ink-3);
+}
+
+.receipt__rule {
+  height: 0;
+  margin: 1rem 0;
+  border-top: 1px dashed rgba(12, 22, 38, 0.24);
+}
+
+.receipt__lines {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 0.62rem;
+}
+
+.receipt__line {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--ink-2);
+}
+
+.receipt__what {
+  white-space: nowrap;
+}
+
+/* Leader dots, drawn rather than typed, so they always reach the price. */
+.receipt__dots {
+  flex: 1;
+  height: 1px;
+  align-self: center;
+  background-image: radial-gradient(currentColor 0.6px, transparent 0.7px);
+  background-size: 4px 1px;
+  background-repeat: repeat-x;
+  opacity: 0.45;
+}
+
+.receipt__price {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* A published drop is a cancelled line. The strike is drawn on rather than
+   set as text-decoration so it can sweep across. */
+.receipt__line--paid .receipt__price {
+  position: relative;
+  color: var(--ink);
+}
+
+.receipt__line--paid .receipt__price::after {
+  content: "";
+  position: absolute;
+  left: -2px;
+  right: -2px;
+  top: 52%;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--strike);
+  transform-origin: left center;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .receipt__line--paid .receipt__price::after {
+    transform: scaleX(0);
+    animation: strike 0.5s var(--ease) forwards;
+    animation-delay: calc(0.7s + var(--n, 0) * 0.22s);
+  }
+}
+
+@keyframes strike {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.receipt__line--pending .receipt__price {
+  color: var(--ink-3);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+}
+
+.receipt__total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.receipt__total-label {
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.receipt__total-value {
+  font-family: var(--font-display), sans-serif;
+  font-size: 2.6rem;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.receipt__foot {
+  margin-top: 0.9rem;
+  text-align: center;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-3);
+}
+
+/* The torn bottom edge: a zig-zag mask rather than an image. */
+.receipt__tear {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -11px;
+  height: 12px;
+  background: var(--paper);
+  -webkit-mask-image: linear-gradient(45deg, transparent 50%, #000 51%),
+    linear-gradient(-45deg, transparent 50%, #000 51%);
+  mask-image: linear-gradient(45deg, transparent 50%, #000 51%),
+    linear-gradient(-45deg, transparent 50%, #000 51%);
+  -webkit-mask-size: 14px 12px;
+  mask-size: 14px 12px;
+  -webkit-mask-repeat: repeat-x;
+  mask-repeat: repeat-x;
+  -webkit-mask-position: 0 0, 7px 0;
+  mask-position: 0 0, 7px 0;
+}
+
+@media (max-width: 960px) {
+  .hero__inner {
+    grid-template-columns: 1fr;
+  }
+  .hero {
+    min-height: auto;
+  }
+  .receipt {
+    width: min(22rem, 100%);
+    margin-top: 1.5rem;
   }
 }
