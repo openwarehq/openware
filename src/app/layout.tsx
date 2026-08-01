@@ -66,6 +66,7 @@ export default function RootLayout({
         {
           "--plate-sky": `url(${asset("/media/sky.jpg")})`,
           "--plate-mist": `url(${asset("/media/mist.jpg")})`,
+          "--plate-desk": `url(${asset("/media/desk.jpg")})`,
         } as React.CSSProperties
       }
     >

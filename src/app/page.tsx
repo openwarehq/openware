@@ -69,13 +69,9 @@ export default function Home() {
 
           <div className="shell hero__inner">
             <div className="hero__copy">
-              <p className="eyebrow eyebrow--bright" data-reveal>
-                Open source · Self-hosted · MIT
-              </p>
               <h1
                 className="display hero__title"
                 data-reveal
-                style={{ "--i": 1 } as React.CSSProperties}
               >
                 Software you
                 <br />
@@ -84,7 +80,7 @@ export default function Home() {
               <p
                 className="hero__lede"
                 data-reveal
-                style={{ "--i": 2 } as React.CSSProperties}
+                style={{ "--i": 1 } as React.CSSProperties}
               >
                 Every drop replaces a subscription you are already paying for.
                 Clone it, point it at a model you own, and keep it.
@@ -92,7 +88,7 @@ export default function Home() {
               <div
                 className="hero__actions"
                 data-reveal
-                style={{ "--i": 3 } as React.CSSProperties}
+                style={{ "--i": 2 } as React.CSSProperties}
               >
                 <Link href="/drops" className="btn btn--primary">
                   Browse the drops
@@ -105,22 +101,6 @@ export default function Home() {
                 </Link>
               </div>
 
-              {/* Every claim here is checkable from the repo. */}
-              <p
-                className="hero__proof mono"
-                data-reveal
-                style={{ "--i": 4 } as React.CSSProperties}
-              >
-                <span>
-                  <b>{DROPS.length}</b> drops published
-                </span>
-                <span>
-                  <b>0</b> accounts, ever
-                </span>
-                <span>
-                  <b>MIT</b> licensed
-                </span>
-              </p>
             </div>
 
             {/* The product, above the fold. */}
@@ -148,25 +128,10 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="hero__pillars">
-            <div className="shell pillars">
-              {PILLARS.map((p, i) => (
-                <div
-                  key={p.title}
-                  className="pillar"
-                  data-reveal
-                  style={{ "--i": 4 + i } as React.CSSProperties}
-                >
-                  <h2 className="pillar__title">{p.title}</h2>
-                  <p className="pillar__body">{p.body}</p>
-                </div>
-              ))}
-            </div>
-          </div>
         </section>
 
         {/* ── The drops ──────────────────────────────────────── */}
-        <section className="section plate plate--mist">
+        <section className="section plate plate--scene">
           <div className="shell">
             <div className="section-head" data-reveal>
               <div>

@@ -252,6 +252,52 @@ h4 {
   opacity: 0.9;
 }
 
+/* Pixel art, scaled up without being smoothed into mush. */
+.plate--scene::before {
+  background-image: var(--plate-desk);
+  image-rendering: pixelated;
+}
+
+/* The lamp in the scene is the brightest thing on the page and the section
+   heading sits right over its glow. This buys the heading headroom and lifts
+   the white cards off the wood at the same time. */
+.plate--scene::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    180deg,
+    rgba(7, 11, 19, 0.62) 0%,
+    rgba(7, 11, 19, 0.34) 34%,
+    rgba(7, 11, 19, 0.46) 100%
+  );
+}
+
+/* This band is dark, so its own copy inverts. The cards on top stay white
+   glass and keep their dark text. */
+.plate--scene .section-head .h2,
+.plate--scene .section-head .eyebrow {
+  color: #f4f6fa;
+}
+
+.plate--scene .section-head .eyebrow {
+  color: rgba(244, 246, 250, 0.75);
+}
+
+.plate--scene .btn--ghost {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.34);
+  color: #fff;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.plate--scene .btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
 .plate--tint {
   background: linear-gradient(180deg, var(--paper), var(--paper-2) 40%, var(--paper));
 }
@@ -501,29 +547,27 @@ html[data-reveal="on"] [data-reveal].is-in {
   overflow: hidden;
 }
 
-.backdrop__img {
+.backdrop__video {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform-origin: 60% 40%;
+  background: var(--paper-2) center / cover no-repeat;
 }
 
-/* The "slightly moving" background: a very slow drift, in CSS rather than
-   video — 35 KB of JPEG instead of a megabyte of MP4, and it stops dead
-   under prefers-reduced-motion. */
-@media (prefers-reduced-motion: no-preference) {
-  .backdrop__img {
-    animation: drift 48s ease-in-out infinite alternate;
-  }
-}
-
-@keyframes drift {
-  from {
-    transform: scale(1.04) translate3d(0, 0, 0);
-  }
-  to {
-    transform: scale(1.12) translate3d(-1.5%, -1%, 0);
-  }
+/* The dot screen. A fine halftone over moving cloud is what stops a sky
+   reading as a stock loop — the grid is static while the cloud moves under
+   it, which is where the pixelated feel comes from. */
+.backdrop__halftone {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    rgba(37, 99, 235, 0.22) 1px,
+    transparent 1.4px
+  );
+  background-size: 5px 5px;
+  mix-blend-mode: multiply;
+  opacity: 0.75;
+  pointer-events: none;
 }
 
 /* Keeps the headline off the brightest part of the cloud. */

@@ -152,10 +152,10 @@ export const DROPS: Drop[] = [
       "motion graphics",
     ],
     hero: {
-      src: "/shots/kve-graphics.jpg",
-      alt: "Three motion-graphic plates kve renders: a title card, a stat card and a numbered steps list",
+      src: "/shots/kve-tool.jpg",
+      alt: "The kve editor: the transcript on the left with a struck-out word marking a cut, and the cleanup and judgment panels on the right",
       caption:
-        "Graphics kve draws for a cut — a title, a stat and a step list. They are HyperFrames HTML rendered to video, so every one is editable text rather than a baked image.",
+        "You edit the video by editing its transcript — a struck-out word is a cut. Dead air comes from ffmpeg reading the waveform, not from the transcript, because whisper stretches word ends across silence.",
     },
     gallery: [],
     highlights: [
