@@ -1555,8 +1555,34 @@ a.card-drop:hover .card-drop__go {
    rather than photographed, and it strikes its own lines through.
    ─────────────────────────────────────────────────────────── */
 
+/* The shop the receipt came out of.
+   The art is 4:5 and is pinned to the top at full width, so the counter
+   always lands at the same fraction of the block. Below the counter the
+   picture is one flat floor colour — repeated here as the background colour
+   — which means the block can grow to whatever height the receipt needs and
+   the join stays invisible. Add a drop and the paper just gets longer. */
+.store {
+  position: relative;
+  /* Sized so the paper inside still comes out at the 24rem it was drawn for;
+     the side padding is what the shop shows around it. */
+  width: min(28rem, 100%);
+  /* Percentage padding resolves against width, so this ratio holds at every
+     size: the top pad drops the paper onto the counter front, just below the
+     lip, leaving the till's own feed showing above it. The bottom pad has to
+     clear the torn edge, which hangs 11px below the paper and swings lower
+     still on the left because the whole thing is rotated. */
+  padding: 55% 7% 10%;
+  background-position: top center;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  background-color: #b5c5d2;
+  border-radius: 14px;
+  box-shadow: var(--lift-3);
+  overflow: hidden;
+}
+
 .receipt {
-  width: min(24rem, 100%);
+  width: 100%;
   perspective: 1200px;
 }
 
@@ -1745,8 +1771,8 @@ a.card-drop:hover .card-drop__go {
   .hero {
     min-height: auto;
   }
-  .receipt {
-    width: min(22rem, 100%);
+  .store {
+    width: min(23rem, 100%);
     margin-top: 1.5rem;
   }
 }
