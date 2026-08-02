@@ -335,6 +335,92 @@ export const DROPS: Drop[] = [
     ],
   },
   {
+    id: "011",
+    slug: "flowy",
+    name: "flowy",
+    tagline: "Screenshots in, a scored launch film out, rendered on your machine",
+    summary:
+      "Describe a product, drop in a few screenshots, and flowy writes the script against your own model, animates it into a beat-locked motion-graphics film, and renders the 1080p MP4 locally. The score is original and composed offline, and the film's beat grid is derived from the track, so every cut lands on the music rather than near it. No account, no credits, and nothing that counts your exported minutes.",
+    replaces: {
+      name: "Clueso",
+      url: "https://www.clueso.io/pricing",
+      price: "$120/mo billed yearly",
+      annualUsd: 1440,
+    },
+    status: "shipped",
+    statusNote: "76 tests, real MP4 out of a clean `docker compose up`",
+    tags: [
+      "video",
+      "demo video",
+      "product video",
+      "launch film",
+      "motion graphics",
+      "screenshots",
+      "clueso",
+      "saas",
+      "remotion",
+    ],
+    hero: {
+      src: "/shots/flowy-studio.jpg",
+      alt: "The flowy studio: a brief on the left, the animated film playing in the browser on the right, and a render panel offering the finished MP4",
+      caption:
+        "The player is the real composition, fully animated. Edit a scene and it changes in front of you \u2014 the MP4 is the same thing, encoded.",
+    },
+    gallery: [
+      {
+        src: "/shots/flowy-film.jpg",
+        alt: "A frame from a rendered film: a product screenshot in a browser frame, tilted in 3D, under a small capsule reading LIVES IN YOUR TERMINAL",
+        caption:
+          "Your screenshots do the work, in browser frames the camera moves around. The type is Poppins, embedded in the bundle rather than fetched.",
+      },
+      {
+        src: "/shots/flowy-stat.jpg",
+        alt: "A frame from a rendered film: the figure 1M in large white type above a capsule reading tokens of context",
+        caption:
+          "One of nine board kinds. The cut onto the number is placed on a beat of the track that is playing under it.",
+      },
+      {
+        src: "/shots/flowy-home.jpg",
+        alt: "The flowy home screen: a form asking for a product name and what it does, above a list of films",
+        caption:
+          "The whole app. There is no sign-in, because there is nothing to sign in to.",
+      },
+    ],
+    highlights: [
+      {
+        title: "The export is the point",
+        body: "Clueso's cheapest paid tier is six hours of video exports a year, and its free tier is ten minutes and seven days. flowy writes an MP4 to a folder. There is no minute to count, so nothing counts it.",
+      },
+      {
+        title: "Two ways to get a script, and you always know which",
+        body: "Your model writes it, or a deterministic outline builds one from the brief with no model at all. The app it grew from silently swapped in the template whenever the model call failed \u2014 you got a worse script and no way to tell. Here the failure is shown and the outline is a button you press on purpose.",
+      },
+      {
+        title: "The model never picks the timing",
+        body: "Scene durations are computed in code from the narration, then quantised onto the beat grid of the track. A language model asked for frame counts returns a film that is eight seconds or four minutes long, depending on its mood.",
+      },
+      {
+        title: "It renders where you are",
+        body: "The original exported through Remotion Lambda: an AWS account, a deployed function, a bucket, four environment variables and a per-render cost. All of it existed to make export worth charging for. This is `@remotion/renderer` in the same process.",
+      },
+    ],
+    limits: [
+      "The render engine is Remotion, which is source-available and not MIT. Free for individuals and for-profit companies up to three employees; larger for-profits need a company licence. flowy's own code is MIT \u2014 the engine under it is not, and this is the one drop here with a pricing page still underneath it.",
+      "16:9 only. No vertical and no square: the board grammar is composed for a wide frame.",
+      "It does not record your screen. You bring screenshots and it makes motion graphics out of them.",
+      "No narration. Films are scored, not spoken \u2014 the timing machinery for voiceover is there and nothing in the drop produces the audio.",
+      "Rendering is slower in Docker than you will expect: a 32.6-second film took 83 seconds natively and 195 in the container, on the same machine.",
+      "The three background worlds and the stock stills are fixed assets. It composes and scores your film; it does not generate new footage.",
+      "One render at a time, and a restart loses the one in flight \u2014 the queue lives in the web process, because a queue that needs its own service is a second command.",
+    ],
+    measured: [
+      { label: "Tests green", value: "76" },
+      { label: "32.6s film, native", value: "83s" },
+      { label: "Same film, in Docker", value: "195s" },
+      { label: "Dependencies", value: "8, from 38" },
+    ],
+  },
+  {
     id: "010",
     slug: "websiteprompts",
     name: "websiteprompts",
