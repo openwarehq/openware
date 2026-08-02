@@ -25,7 +25,14 @@ export function Receipt() {
       className="store"
       style={{ backgroundImage: `url(${asset("/media/store.webp")})` }}
     >
-      <div className="receipt" role="img" aria-label={label()}>
+      {/* The inset lives on this wrapper, not on .store. Percentage padding
+          resolves against the containing block's width — put it on .store and
+          it measures the hero column instead of the shop, so the paper drifts
+          off the counter the moment the column changes size. Here the
+          containing block is .store itself, which is exactly what the art is
+          drawn at. */}
+      <div className="store__inner">
+        <div className="receipt" role="img" aria-label={label()}>
         <div className="receipt__paper">
           <div className="receipt__head">
             <span className="receipt__title mono">SUBSCRIPTIONS</span>
@@ -81,8 +88,9 @@ export function Receipt() {
             no account · no tier · nothing to cancel
           </p>
 
-          {/* The torn edge. */}
-          <div className="receipt__tear" aria-hidden="true" />
+            {/* The torn edge. */}
+            <div className="receipt__tear" aria-hidden="true" />
+          </div>
         </div>
       </div>
     </div>

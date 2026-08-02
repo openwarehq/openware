@@ -1563,15 +1563,24 @@ a.card-drop:hover .card-drop__go {
    the join stays invisible. Add a drop and the paper just gets longer. */
 .store {
   position: relative;
-  /* Sized so the paper inside still comes out at the 24rem it was drawn for;
+  /* One unit drives the whole block. Every length inside the receipt is a
+     multiple of it, so the card scales as a single object: the shop, the
+     paper, the type and the $0 all move together.
+
+     It is tied to viewport HEIGHT because that is what this thing competes
+     for — the hero is 100svh and the receipt is the tallest thing in it, so
+     on a short laptop window it was the reason you had to scroll. At 1rem
+     the card measures exactly what it was drawn at, and 1rem is the cap, so
+     a tall screen gets the original and shorter ones get it smaller rather
+     than cropped. The floor stops it shrinking into illegibility on a very
+     short window, and accepts a little scroll below about 730px instead.
+
+     A custom property rather than em: half these rules are nested, and em
+     would multiply through the nesting instead of holding one scale. */
+  --u: clamp(0.66rem, 1.42vh, 1rem);
+  /* Sized so the paper inside still comes out at the width it was drawn for;
      the side padding is what the shop shows around it. */
-  width: min(28rem, 100%);
-  /* Percentage padding resolves against width, so this ratio holds at every
-     size: the top pad drops the paper onto the counter front, just below the
-     lip, leaving the till's own feed showing above it. The bottom pad has to
-     clear the torn edge, which hangs 11px below the paper and swings lower
-     still on the left because the whole thing is rotated. */
-  padding: 55% 7% 10%;
+  width: min(calc(28 * var(--u)), 100%);
   background-position: top center;
   background-size: 100% auto;
   background-repeat: no-repeat;
@@ -1581,6 +1590,16 @@ a.card-drop:hover .card-drop__go {
   overflow: hidden;
 }
 
+/* The art is painted at 100% of .store's width, and these percentages resolve
+   against that same width, so the two stay locked together at every size.
+   62% drops the paper onto the counter front just below the lip — half way
+   down the picture — leaving the till's own paper feed showing above it. The
+   bottom clears the torn edge, which hangs below the paper and swings lower
+   on the left because the whole thing is rotated. */
+.store__inner {
+  padding: 62% 7% 9%;
+}
+
 .receipt {
   width: 100%;
   perspective: 1200px;
@@ -1588,7 +1607,7 @@ a.card-drop:hover .card-drop__go {
 
 .receipt__paper {
   position: relative;
-  padding: 1.6rem 1.5rem 2.2rem;
+  padding: calc(1.6 * var(--u)) calc(1.5 * var(--u)) calc(2.2 * var(--u));
   background: var(--paper);
   border-radius: 10px 10px 0 0;
   box-shadow: var(--lift-3);
@@ -1598,26 +1617,26 @@ a.card-drop:hover .card-drop__go {
 .receipt__head {
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: calc(0.2 * var(--u));
   text-align: center;
 }
 
 .receipt__title {
-  font-size: 0.8rem;
+  font-size: calc(0.8 * var(--u));
   letter-spacing: 0.28em;
   color: var(--ink);
   font-weight: 600;
 }
 
 .receipt__sub {
-  font-size: 0.7rem;
+  font-size: calc(0.7 * var(--u));
   letter-spacing: 0.12em;
   color: var(--ink-3);
 }
 
 .receipt__rule {
   height: 0;
-  margin: 1rem 0;
+  margin: calc(1 * var(--u)) 0;
   border-top: 1px dashed rgba(12, 22, 38, 0.24);
 }
 
@@ -1625,14 +1644,14 @@ a.card-drop:hover .card-drop__go {
   list-style: none;
   padding: 0;
   display: grid;
-  gap: 0.62rem;
+  gap: calc(0.62 * var(--u));
 }
 
 .receipt__line {
   display: flex;
   align-items: baseline;
-  gap: 0.5rem;
-  font-size: 0.8rem;
+  gap: calc(0.5 * var(--u));
+  font-size: calc(0.8 * var(--u));
   color: var(--ink-2);
 }
 
@@ -1691,7 +1710,7 @@ a.card-drop:hover .card-drop__go {
 
 .receipt__line--pending .receipt__price {
   color: var(--ink-3);
-  font-size: 0.72rem;
+  font-size: calc(0.72 * var(--u));
   letter-spacing: 0.06em;
 }
 
@@ -1700,9 +1719,9 @@ a.card-drop:hover .card-drop__go {
 .receipt__subtotal {
   display: flex;
   align-items: baseline;
-  gap: 0.5rem;
-  margin-bottom: 0.55rem;
-  font-size: 0.72rem;
+  gap: calc(0.5 * var(--u));
+  margin-bottom: calc(0.55 * var(--u));
+  font-size: calc(0.72 * var(--u));
   letter-spacing: 0.14em;
   color: var(--ink-2);
 }
@@ -1717,11 +1736,11 @@ a.card-drop:hover .card-drop__go {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: 1rem;
+  gap: calc(1 * var(--u));
 }
 
 .receipt__total-label {
-  font-size: 0.78rem;
+  font-size: calc(0.78 * var(--u));
   letter-spacing: 0.2em;
   color: var(--ink);
   font-weight: 600;
@@ -1729,7 +1748,7 @@ a.card-drop:hover .card-drop__go {
 
 .receipt__total-value {
   font-family: var(--font-display), sans-serif;
-  font-size: 2.6rem;
+  font-size: calc(2.6 * var(--u));
   font-weight: 700;
   letter-spacing: -0.04em;
   line-height: 1;
@@ -1737,9 +1756,9 @@ a.card-drop:hover .card-drop__go {
 }
 
 .receipt__foot {
-  margin-top: 0.9rem;
+  margin-top: calc(0.9 * var(--u));
   text-align: center;
-  font-size: 0.68rem;
+  font-size: calc(0.68 * var(--u));
   letter-spacing: 0.08em;
   color: var(--ink-3);
 }
@@ -1772,6 +1791,10 @@ a.card-drop:hover .card-drop__go {
     min-height: auto;
   }
   .store {
+    /* Below this breakpoint the hero stacks and the page is expected to
+       scroll, so height is no longer the scarce axis — take the unit back to
+       full size and let width do the constraining. */
+    --u: 1rem;
     width: min(23rem, 100%);
     margin-top: 1.5rem;
   }
