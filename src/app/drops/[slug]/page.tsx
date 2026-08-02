@@ -30,7 +30,9 @@ export default async function DropPage({ params }: Params) {
   if (!drop) notFound();
 
   const repo = dropRepo(drop.slug);
-  const quickstart = `git clone ${repo}
+  const quickstart =
+    drop.run?.code ??
+    `git clone ${repo}
 cd ${drop.slug}
 docker compose up`;
 
@@ -150,9 +152,13 @@ docker compose up`;
               <h2 className="h2 drop-section__title">Run it</h2>
               <CopyBlock code={quickstart} label="shell" />
               <p className="split__note">
-                Then open the app and connect a model — pick a provider, paste a
-                free key, done. It also reads a repo-root <code>.env</code> if
-                you prefer a file.
+                {drop.run?.note ?? (
+                  <>
+                    Then open the app and connect a model — pick a provider,
+                    paste a free key, done. It also reads a repo-root{" "}
+                    <code>.env</code> if you prefer a file.
+                  </>
+                )}
               </p>
             </div>
 

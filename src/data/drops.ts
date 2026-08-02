@@ -47,82 +47,15 @@ export interface Drop {
   limits: string[];
   /** Numbers that were measured, not estimated. */
   measured?: { label: string; value: string }[];
+  /**
+   * Overrides the "Run it" block. Most drops are a compose file and get the
+   * default; a drop that isn't a running service would otherwise be told to
+   * `docker compose up` something that has no compose file.
+   */
+  run?: { code: string; note: string };
 }
 
 export const DROPS: Drop[] = [
-  {
-    id: "001",
-    slug: "unlovable",
-    name: "unlovable",
-    tagline: "Describe a website, watch it get built page by page, export it",
-    summary:
-      "Describe a site in a sentence and watch it get written one page at a time, then refine it by chatting. The model writes structure, never CSS — design comes from tokens rendered by code, which is why separately generated pages still look like one site. Export is a zip of dependency-free HTML and CSS with zero remote references.",
-    replaces: {
-      name: "Lovable",
-      url: "https://lovable.dev",
-      price: "$25/mo",
-      annualUsd: 300,
-    },
-    status: "shipped",
-    statusNote: "verified offline on a local 7B, and through Docker",
-    tags: [
-      "website",
-      "builder",
-      "landing page",
-      "static site",
-      "lovable",
-      "html",
-      "css",
-      "export",
-      "netlify",
-    ],
-    hero: {
-      src: "/shots/unlovable-workspace.jpg",
-      alt: "The unlovable workspace: chat and version history on the left, a live preview of a generated coffee-roaster site on the right",
-      caption:
-        "A real site built by gemma-4-26b-a4b:free — chat and history on the left, live preview on the right, export and deploy top right.",
-    },
-    gallery: [
-      {
-        src: "/shots/unlovable-landing.jpg",
-        alt: "A generated landing page shown full width",
-        caption:
-          "One of the generated pages on its own. Type, colour and layout only — there is no image generation and no stock library, so nothing here was fetched from anywhere.",
-      },
-    ],
-    highlights: [
-      {
-        title: "The model writes structure, not CSS",
-        body: "Design comes from tokens rendered by code. That is why five separately generated pages look like one site rather than five — you get a coherent site, not an arbitrary one.",
-      },
-      {
-        title: "Truncated output is rejected, not shipped",
-        body: "Of the 17 models OpenRouter lists as free, 8 actually answer. Reasoning models are the usual failure: they spend the budget thinking and get cut off. The app refuses half a page rather than handing it to you.",
-      },
-      {
-        title: "A 7B model is the floor, and it clears it",
-        body: "Fully offline on qwen2.5-coder:7b: valid plan JSON, no stray style tags, no markdown fences leaking through, working nav links.",
-      },
-      {
-        title: "The export owes nothing to anyone",
-        body: "A zip of dependency-free HTML and CSS with zero remote references — checked by grepping the extracted archive, not assumed. Every static host takes it.",
-      },
-    ],
-    limits: [
-      "Static sites only. Marketing pages, portfolios, landing pages. No React apps, no backend, no database, no forms that submit anywhere.",
-      "No images. Pages are built from type, colour and layout — there is no image generation and no stock library.",
-      "Single user, no auth. It is your machine; do not expose it to the internet.",
-      "A page containing a literal ======= line can break editing. That is the delimiter of the SEARCH/REPLACE format the edit loop uses; aider has the same limitation.",
-      "Max 5 pages per site. More pages means more sequential model calls, and that gets slow fast.",
-      "Free models vary a lot. Some advertised as free return nothing at all — the picker lists what your provider offers, but it cannot tell you which are good.",
-    ],
-    measured: [
-      { label: "One page, hosted on the default free model", value: "62s" },
-      { label: "Full site plan, offline on a 7B", value: "22s" },
-      { label: "One chat edit, offline", value: "10–19s" },
-      { label: "Remote references in the export", value: "0" },
-    ],
-  },
   {
     id: "006",
     slug: "ledge",
@@ -400,6 +333,95 @@ export const DROPS: Drop[] = [
       { label: "Re-export with cache", value: "54s → 4.4s" },
       { label: "LLM calls made by the CLI", value: "0" },
     ],
+  },
+  {
+    id: "010",
+    slug: "websiteprompts",
+    name: "websiteprompts",
+    tagline:
+      "Twenty-three prompts that make any coding agent build a cinematic website",
+    summary:
+      "A prompt per site. Paste one into Claude Code, Cursor or v0 and you get the whole page back — markup, styles, animation, and a background video that is already hosted, so there is nothing to download and nothing to wire up. They are long on purpose: every one specifies its own colours, easing curves, blur radii and z-index order, because those are the details a model fills with defaults when you leave them out.",
+    replaces: {
+      name: "Framer",
+      url: "https://www.framer.com/pricing/",
+      price: "$10/mo per site",
+      annualUsd: 120,
+    },
+    status: "shipped",
+    statusNote: "23 prompts, no signup, free commercially",
+    tags: [
+      "prompts",
+      "website",
+      "landing page",
+      "hero section",
+      "animation",
+      "video background",
+      "framer",
+      "webflow",
+      "template",
+      "design",
+      "tailwind",
+      "react",
+    ],
+    hero: {
+      src: "/shots/websiteprompts-prisma.webp",
+      alt: "The Prisma landing page: an oversized serif wordmark over a video of a cabin on a floating island above the clouds, with a thin nav and a pill call-to-action",
+      caption:
+        "Prisma, built from one paste. The wordmark, the nav, the copy block and the pill button are code the model wrote; the video behind them is fetched from a URL that was already in the prompt.",
+    },
+    gallery: [
+      {
+        src: "/shots/websiteprompts-koi.webp",
+        alt: "The Koi Garden hero: white serif type reading “Rain writes rings on black water” over a slow-motion water droplet, with vertical Japanese text down the right edge",
+        caption:
+          "Koi Garden. The prompt names the typeface, the ripple video, the vertical rail of Japanese text and where each one sits — which is why two different models give you roughly the same page.",
+      },
+      {
+        src: "/shots/websiteprompts-ascent.webp",
+        alt: "The Ascent landing page: a climber on a sunlit rock face, a headline reading “Gear that has never once let go”, and a row of three statistics beneath it",
+        caption:
+          "Ascent. Same structure, different skin — the usual second step is “keep this, make the accent #c0603c and sell bread instead”, not a rewrite.",
+      },
+    ],
+    highlights: [
+      {
+        title: "The output is yours, not a hosted page",
+        body: "A site builder rents you the page and keeps the runtime. These give you the file. Whatever the model writes is code in your repo, on your stack, with no editor to log into and nothing that stops rendering when a subscription lapses.",
+      },
+      {
+        title: "The video is already up",
+        body: "The hardest part of a cinematic hero is having the footage. Every prompt carries a URL to a video that is already hosted and serving, so the page looks right on the first run instead of after an afternoon of sourcing clips.",
+      },
+      {
+        title: "Long on purpose",
+        body: "They average 942 words and run to 1,649. That is the point — the specificity is what stops the result looking generated. Trimming a prompt to something tidy is how you get the default gradient and the default easing back.",
+      },
+      {
+        title: "Model-agnostic, because it is only text",
+        body: "There is no SDK, no key and no runtime. Anything that writes code takes them, which also means they do not rot when a provider changes an API.",
+      },
+    ],
+    limits: [
+      "It is not software. There is no compose file, no server and nothing to install — it is twenty-three markdown files. It sits on this site because it kills a bill, not because you can run it.",
+      "Framer also hosts your site, gives you a visual editor and a CMS. This replaces the part that makes a page look expensive, and none of the rest — you still need somewhere to put the result.",
+      "Seventeen of the twenty-three are hero sections, not whole sites. Four are full landing pages and two are interactive. You get the top of the page, not the pricing table.",
+      "The videos live in a bucket that isn’t yours. They are up now and meant to stay up, but a permanent site should download the mp4 and serve it itself.",
+      "The result is only as good as the model you paste into. Expect one follow-up on the first pass — usually a single interaction it missed.",
+      "These twenty-three are the free tier. The scroll-driven ones and the other eighty-eight sites are behind uiprompts.app.",
+    ],
+    measured: [
+      { label: "Prompts", value: "23" },
+      { label: "Hosted videos, checked live", value: "21/21" },
+      { label: "Average prompt", value: "942 words" },
+      { label: "Signup required", value: "none" },
+    ],
+    run: {
+      code: `open https://github.com/openwarehq/websiteprompts
+# open any prompt, copy the whole fenced block
+# paste it into Claude Code, Cursor or v0`,
+      note: "There is nothing to install. Copy the entire block, including the parts that look redundant — the length is what makes the output look designed rather than generated.",
+    },
   },
 ];
 
